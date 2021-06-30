@@ -1,6 +1,6 @@
 import pool from '../lib/utils/pool.js';
 import setup from '../data/setup.js';
-import request from 'supertest';
+import request, { agent } from 'supertest';
 import app from '../lib/app.js';
 
 describe('demo routes', () => {
@@ -22,6 +22,18 @@ describe('demo routes', () => {
       username: 'stonky',
       profilePhotoUrl: 'https://slate.com/business/2021/01/stonks-not-stocks-got-it.html'
     });
-
+  });
+  it('login a user via POST', async() => {
+    const res = await agent
+      .post('/api/v1/auth/login')
+      .send({ 
+        username: 'stonky',
+        password: 'stonks'
+      });
+    
+    expect(res.body).toEqual({
+      id: '1',
+      username: 'stonky'
+    });
   });
 });
