@@ -7,19 +7,21 @@ describe('demo routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
+
   it('signs up a user via POST', async () => {
     const res = await request(app)
       .post('/api/v1/auth/signup')
       .send({
-        email: 'test@stonks.com',
-        password: 'stonks'
+        username: 'stonky',
+        password: 'stonks',
+        profilePhotoUrl: 'https://slate.com/business/2021/01/stonks-not-stocks-got-it.html'
       });
 
     expect(res.body).toEqual({
       id: '1',
-      email: 'test@stonks.com'
+      username: 'stonky',
+      profilePhotoUrl: 'https://slate.com/business/2021/01/stonks-not-stocks-got-it.html'
     });
-
 
   });
 });
