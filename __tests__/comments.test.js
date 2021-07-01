@@ -1,6 +1,7 @@
 import request from 'supertest';
 import setup from '../data/setup.js';
 import app from '../lib/app.js';
+import Comment from '../lib/models/Comment.js';
 import Post from '../lib/models/Post.js';
 import UserService from '../lib/services/UserService.js';
 import pool from '../lib/utils/pool.js';
@@ -48,6 +49,26 @@ describe('comment routes', () => {
       post: dogepost.id,
       comment: 'so scare'
     });
+  });
+
+  it('deletes a comment', async() => {
+    const dogepost = await Post.insert({
+      userId: user.id,
+      photoUrl: 'doge',
+      caption: 'wow, much doge',
+      tags: ['doge', 'wow']
+    });
+
+    const dogecomment = await Comment.insert({
+      commentBy: user.id,
+      post: dogepost.id,
+      comment: 'so scare'
+    });
+
+    const res = await agent
+      .delete(`/api/v1/comments/${dogecomment.id}`);
+    
+    expect(res.body).toEqual(dogecomment);
   });
 });
 
