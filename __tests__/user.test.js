@@ -6,7 +6,7 @@ import UserService from '../lib/services/UserService.js';
 
 const agent = request.agent(app);
 
-describe('demo routes', () => {
+describe('user routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
@@ -26,7 +26,7 @@ describe('demo routes', () => {
       profilePhotoUrl: 'https://slate.com/business/2021/01/stonks-not-stocks-got-it.html'
     });
   });
-  it('login a user via POST', async() => {
+  it('logs in a user via POST', async() => {
     const user = await UserService.create({
       username: 'stonky',
       password: 'stonks',
