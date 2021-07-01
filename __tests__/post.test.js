@@ -68,6 +68,7 @@ describe('post routes', () => {
   });
 
   it('gets a post by id', async() => {
+
     const dogepost = await Post.insert({
       userId: user.id,
       photoUrl: 'doge',
@@ -79,7 +80,7 @@ describe('post routes', () => {
       commentBy: user.id,
       post: dogepost.id,
       comment: 'so scare'
-    });
+    }); 
 
     const res = await request(app)
       .get(`/api/v1/posts/${dogepost.id}`);
@@ -117,6 +118,21 @@ describe('post routes', () => {
     
     expect(res.body).toEqual(dogepost);
   });
+
+  /*   it('deletes a post', async() => {
+    const dogepost = await Post.insert({
+      userId: user.id,
+      photoUrl: 'doge',
+      caption: 'wow, much doge',
+      tags: ['doge', 'wow']
+    });
+
+    const res = await agent
+      .delete(`/api/v1/posts/${dogepost.id}`)
+      .send(user.id);
+    
+    expect(res.body).toEqual(dogepost);
+  }); */
 
   it('gets list of 10 posts with most comments', async() => {
     const dogepost = await Post.insert({
