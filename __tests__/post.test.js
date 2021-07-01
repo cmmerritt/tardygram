@@ -4,6 +4,7 @@ import pool from '../lib/utils/pool.js';
 import setup from '../data/setup.js';
 import UserService from '../lib/services/UserService.js';
 import Post from '../lib/models/Post.js';
+import Comment from '../lib/models/Comment.js';
 
 describe('post routes', () => {
 
@@ -109,6 +110,34 @@ describe('post routes', () => {
       // .send(dogepost);
     
     expect(res.body).toEqual(dogepost);
+  });
+  
+  it('gets list of 10 posts with most comments', async() => {
+    const dogepost = await Post.insert({
+      userId: user.id,
+      photoUrl: 'doge',
+      caption: 'wow, much doge',
+      tags: ['doge', 'wow']
+    });
+
+    await Post.insert({
+      id: '1',
+      userId: '1',
+      photoUrl: 'stonkphoto',
+      caption: 'My embarrassing LiveJournal post circa 2003',
+      tags: ['wow', 'stonk', 'stronk']
+    });
+
+    await Comment.insert({
+      commentBy: user.id,
+      post: dogepost.id,
+      comment: 'so scare'
+    });
+
+    const res = await request(app)
+      .get('/api/v1/posts/popular');
+    
+    expect(res.body[0]).toEqual(dogepost);
   });
 });
 
