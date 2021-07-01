@@ -79,5 +79,22 @@ describe('post routes', () => {
       .get(`/api/v1/posts/${dogepost.id}`);
     expect(res.body).toEqual(dogepost);
   });
+
+  it('updates a post via patch', async() => {
+    const dogepost = await Post.insert({
+      userId: user.id,
+      photoUrl: 'doge',
+      caption: 'wow, much doge',
+      tags: ['doge', 'wow']
+    });
+
+    dogepost.caption = 'wow, very doge';
+
+    const res = await agent
+      .patch(`/api/v1/posts/${dogepost.id}`)
+      .send({ caption: 'wow, very doge' });
+
+    expect(res.body).toEqual(dogepost);
+  });
 });
 
