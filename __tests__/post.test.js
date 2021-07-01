@@ -26,7 +26,6 @@ describe('post routes', () => {
   });
 
   it('creates a post via POST', async () => {
-
     const res = await agent
       .post('/api/v1/posts')
       .send({
@@ -106,8 +105,8 @@ describe('post routes', () => {
     });
 
     const res = await agent
-      .delete(`/api/v1/posts/${dogepost.id}`)
-      .send(dogepost);
+      .delete(`/api/v1/posts/${dogepost.id}`);
+      // .send(dogepost);
     
     expect(res.body).toEqual(dogepost);
   });
