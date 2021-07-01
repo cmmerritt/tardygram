@@ -3,6 +3,7 @@ import app from '../lib/app.js';
 import pool from '../lib/utils/pool.js';
 import setup from '../data/setup.js';
 import UserService from '../lib/services/UserService.js';
+import Post from '../lib/models/Post.js';
 
 describe('post routes', () => {
 
@@ -37,11 +38,36 @@ describe('post routes', () => {
 
     expect(res.body).toEqual({
       id: '1',
-      userId: user.id,
+      userId: '1',
       photoUrl: 'stonkphoto',
       caption: 'My embarrassing LiveJournal post circa 2003',
       tags: ['wow', 'stonk', 'stronk']
     });
+  });
+
+
+  it('responds with a list of all posts', async () => {
+    const dogepost = await Post.insert({
+      userId: user.id,
+      photoUrl: 'doge',
+      caption: 'wow, much doge',
+      tags: ['doge', 'wow']
+    });
+
+    const thestonkpost = await Post.insert({
+      id: '1',
+      userId: '1',
+      photoUrl: 'stonkphoto',
+      caption: 'My embarrassing LiveJournal post circa 2003',
+      tags: ['wow', 'stonk', 'stronk']
+    });
+
+    const res = await request(app)
+      .get('/api/v1/posts');
+    console.log(res.body);
+        
+    expect(res.body).toEqual([dogepost, thestonkpost]);
+        
   });
 });
 
