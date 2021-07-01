@@ -96,5 +96,20 @@ describe('post routes', () => {
 
     expect(res.body).toEqual(dogepost);
   });
+
+  it('deletes a post', async() => {
+    const dogepost = await Post.insert({
+      userId: user.id,
+      photoUrl: 'doge',
+      caption: 'wow, much doge',
+      tags: ['doge', 'wow']
+    });
+
+    const res = await agent
+      .delete(`/api/v1/posts/${dogepost.id}`)
+      .send(dogepost);
+    
+    expect(res.body).toEqual(dogepost);
+  });
 });
 
