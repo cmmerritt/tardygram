@@ -45,7 +45,6 @@ describe('post routes', () => {
     });
   });
 
-
   it('responds with a list of all posts', async () => {
     const dogepost = await Post.insert({
       userId: user.id,
@@ -64,10 +63,21 @@ describe('post routes', () => {
 
     const res = await request(app)
       .get('/api/v1/posts');
-    console.log(res.body);
         
     expect(res.body).toEqual([dogepost, thestonkpost]);
-        
+  });
+
+  it('gets a post by id', async() => {
+    const dogepost = await Post.insert({
+      userId: user.id,
+      photoUrl: 'doge',
+      caption: 'wow, much doge',
+      tags: ['doge', 'wow']
+    });
+
+    const res = await request(app)
+      .get(`/api/v1/posts/${dogepost.id}`);
+    expect(res.body).toEqual(dogepost);
   });
 });
 
