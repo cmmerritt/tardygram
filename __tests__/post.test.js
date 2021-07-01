@@ -80,7 +80,7 @@ describe('post routes', () => {
     expect(res.body).toEqual(dogepost);
   });
 
-  it('updates a post via patch', async() => {
+  it('updates a post via PATCH', async() => {
     const dogepost = await Post.insert({
       userId: user.id,
       photoUrl: 'doge',
