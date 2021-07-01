@@ -75,8 +75,15 @@ describe('post routes', () => {
       tags: ['doge', 'wow']
     });
 
+    await Comment.insert({
+      commentBy: user.id,
+      post: dogepost.id,
+      comment: 'so scare'
+    });
+
     const res = await request(app)
       .get(`/api/v1/posts/${dogepost.id}`);
+
     expect(res.body).toEqual(dogepost);
   });
 
@@ -107,11 +114,10 @@ describe('post routes', () => {
 
     const res = await agent
       .delete(`/api/v1/posts/${dogepost.id}`);
-      // .send(dogepost);
     
     expect(res.body).toEqual(dogepost);
   });
-  
+
   it('gets list of 10 posts with most comments', async() => {
     const dogepost = await Post.insert({
       userId: user.id,
